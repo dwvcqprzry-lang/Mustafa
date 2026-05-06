@@ -3,143 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKOON</title>
+    <title>SKOON | مصطفى</title>
+    <!-- استيراد خط القاهرة الفخم -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* لوحة ألوان الشخصية الثقيلة */
+            --bg-dark: #0a0a0a; /* أسود شبه مطفي */
+            --bg-card: #141414; /* رمادي غامق جداً للكارت */
+            --text-main: #e0e0e0; /* أبيض مطفي مريح للعين */
+            --accent: #c19a6b; /* ذهبي نحاسي رزين */
+            --accent-hover: #e0b98c; /* ذهبي أفتح قليلاً عند التأشير */
+            --border: rgba(193, 154, 107, 0.2); /* حدود ذهبية شفافة جداً */
+            --transition-slow: 1.2s cubic-bezier(0.22, 1, 0.36, 1); /* انتقال رزين وبطيء */
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f0f;
-            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
+            overflow: hidden;
+            /* خلفية متحركة ببطء شديد جداً لإضافة عمق فخم */
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            background-size: 200% 200%;
+            animation: slowGradient 20s ease infinite;
         }
 
-        .container {
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
+        @keyframes slowGradient {
+            0% { background-position: 50% 50%; }
+            50% { background-position: 50% 60%; }
+            100% { background-position: 50% 50%; }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 60px 40px;
+            border-radius: 4px; /* زوايا حادة قليلاً تعطي شعوراً بالرسمية */
+            text-align: center;
+            width: 85%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        /* لمسة ذهبية علوية للكارت */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
         }
 
         .step {
-            display: none; /* نخفي كل الخطوات بالبداية */
-            animation: fadeIn 0.5s ease-in-out;
+            display: none; /* مخفي افتراضياً */
+            opacity: 0;
+            transform: translateY(10px) scale(0.98); /* يبدأ أصغر قليلاً وتحت */
+            transition: opacity var(--transition-slow), transform var(--transition-slow);
         }
 
         .step.active {
-            display: block; /* نظهر الخطوة النشطة فقط */
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1); /* ينسااب لمكانه الطبيعي */
         }
 
-        h1 { font-size: 3rem; margin-bottom: 10px; color: #fff; }
-        p { font-size: 1.2rem; margin-bottom: 25px; line-height: 1.6; }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        .sub-text {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .dialog-text {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .accent-text {
+            color: var(--accent);
+        }
 
         button {
-            background-color: #fff;
-            color: #000;
-            border: none;
-            padding: 12px 25px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 15px 40px;
+            border-radius: 2px;
             font-size: 1rem;
-            font-weight: bold;
-            border-radius: 25px;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            outline: none;
         }
 
         button:hover {
-            background-color: #ddd;
-            transform: scale(1.05);
+            background: var(--accent);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(193, 154, 107, 0.3);
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
             border: none;
-            outline: none;
+            border-bottom: 1px solid var(--border);
+            padding: 15px;
+            color: #fff;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 30px;
             text-align: center;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        input:focus {
+            border-bottom-color: var(--accent);
         }
+
+        /* تنسيق خاص للخطوة الأخيرة */
+        #s7 .dialog-text {
+            font-size: 1.6rem;
+            color: var(--accent);
+        }
+        #s7 .sub-text {
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- الخطوة 1 -->
-    <div class="step active" id="step1">
-        <h1>SKOON</h1>
-        <p>هلا بيك بموقع مُـصطفى 🤍</p>
-        <button onclick="nextStep(2)">ابدأ</button>
+    <div class="card">
+        <!-- خطوة 1: البداية الهادئة -->
+        <div class="step active" id="s1">
+            <h1>SKOON</h1>
+            <p class="sub-text">مرحباً بك في عالم مُـصطفى 🤍</p>
+            <button onclick="move(1, 2)">ابدأ</button>
+        </div>
+
+        <!-- خطوة 2 -->
+        <div class="step" id="s2">
+            <p class="dialog-text">
+                هذا الموقع لم يُمنح لأحد.. <br>
+                <span class="accent-text">كيف وجدت طريقك إلى هنا؟</span> 🤔
+            </p>
+            <button onclick="move(2, 3)">مصطفى أعطاك الرابط؟</button>
+        </div>
+
+        <!-- خطوة 3 -->
+        <div class="step" id="s3">
+            <p class="dialog-text">
+                أنا لم أعطه إلا لـ <span class="accent-text">حسوني</span>😉<br>
+                هل تحاول إثبات أنك هو؟😏
+            </p>
+            <button onclick="move(3, 4)">نعم، أنا حسين</button>
+        </div>
+
+        <!-- خطوة 4 -->
+        <div class="step" id="s4">
+            <p class="dialog-text">أثبت لي ذلك.. 🫰🏽🖕🏽</p>
+            <button onclick="move(4, 5)">سأثبت لك</button>
+        </div>
+
+        <!-- خطوة 5 -->
+        <div class="step" id="s5">
+            <p class="dialog-text accent-text">من هو أكثر شخص أحبه؟🌚</p>
+            <input type="text" id="ans" placeholder="أجب بصدق..." autocomplete="off">
+            <br>
+            <button onclick="sendAndMove()">إرسال الإجابة</button>
+        </div>
+
+        <!-- خطوة 6 -->
+        <div class="step" id="s6">
+            <p class="dialog-text">
+                🤍🤍🤍<br>
+                أنت أكثر شخص أحبه 🫰🏽🖕🏽
+            </p>
+            <button onclick="move(6, 7)">النهاية</button>
+        </div>
+
+        <!-- خطوة 7 -->
+        <div class="step" id="s7">
+            <p class="dialog-text">أحبك جداً.. 🤍</p>
+            <p class="sub-text">
+                نصيحة: لا تدخل أي رابط يرسله لك شخص غريب، جهازك أمانة.😉
+            </p>
+        </div>
     </div>
 
-    <!-- الخطوة 2 -->
-    <div class="step" id="step2">
-        <p>(هذا الموقع ما منطي لواحد 😒. شلون دخلت ؟ 🤔)</p>
-        <button onclick="nextStep(3)">مصطفى انطاك الموقع ؟</button>
-    </div>
+    <script>
+        // وظيفة الانتقال السينمائي البطيء
+        function move(current, next) {
+            const currEl = document.getElementById('s' + current);
+            const nextEl = document.getElementById('s' + next);
 
-    <!-- الخطوة 3 -->
-    <div class="step" id="step3">
-        <p>(انـي ما انطيتة بس لحسوني😉 <br> تريد تثبت انتَ حسين ؟ 😏)</p>
-        <button onclick="nextStep(4)">اييـ انـي حسين</button>
-    </div>
-
-    <!-- الخطوة 4 -->
-    <div class="step" id="step4">
-        <p>اثبتلي 🫰🏽🖕🏽</p>
-        <button onclick="nextStep(5)">اثبتلي</button>
-    </div>
-
-    <!-- الخطوة 5: السؤال والإجابة -->
-    <div class="step" id="step5">
-        <p>( منو اكثر شخص احبة 🌚)</p>
-        <input type="text" id="answerInput" placeholder="اكتب إجابتك هنا...">
-        <button onclick="submitAnswer()">ارسال</button>
-    </div>
-
-    <!-- الخطوة 6 -->
-    <div class="step" id="step6">
-        <p>🤍🤍🤍 انتَ اكثر شخص احبة 🫰🏽🖕🏽</p>
-        <button onclick="nextStep(7)">النهاية</button>
-    </div>
-
-    <!-- الخطوة 7: الأخيرة -->
-    <div class="step" id="step7">
-        <p>احبك كلش هواي 🤍 <br> ولا تدخل على اي موقع يدزة الك شخص لان كل جهازك يصير يمة 😉</p>
-    </div>
-</div>
-
-<script>
-    function nextStep(stepNumber) {
-        // إخفاء كل الخطوات
-        document.querySelectorAll('.step').forEach(step => {
-            step.classList.remove('active');
-        });
-        // إظهار الخطوة المطلوبة
-        document.getElementById('step' + stepNumber).classList.add('active');
-    }
-
-    function submitAnswer() {
-        const answer = document.getElementById('answerInput').value;
-        if (answer.trim() === "") {
-            alert("اكتب شي أولاً!");
-            return;
+            // إخفاء العنصر الحالي (تفعيل الـ CSS transition للـ opacity والـ transform)
+            currEl.classList.remove('active');
+            
+            // انتظار انتهاء الحركة البطيئة قبل إظهار العنصر التالي
+            setTimeout(() => {
+                nextEl.classList.add('active');
+            }, 600); // نصف زمن الـ transition الـ slow لضمان تداخل ناعم
         }
 
-        // هنا إذا تريد الإجابة توصلك صدك، لازم تربطها بـ API
-        console.log("إجابة حسين هي: " + answer);
-        
-        // الانتقال للرسالة الرومانسية
-        nextStep(6);
-    }
-</script>
-
+        function sendAndMove() {
+            const val = document.getElementById('ans').value;
+            if(!val.trim()) {
+                // تنبيه بسيط ورزين
+                document.getElementById('ans').style.borderColor = 'red';
+                setTimeout(()=> document.getElementById('ans').style.borderColor = 'var(--border)', 1000);
+                return;
+            }
+            
+            // هنا يمكنك ربط الـ Formspree مستقبلاً
+            console.log("الجواب الثقيل:", val);
+            
+            move(5, 6);
+        }
+    </script>
 </body>
 </html>
